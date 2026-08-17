@@ -1,0 +1,9 @@
+{
+  "backtest_complete": true,
+  "controller_valid": true,
+  "credentials_present": false,
+  "deployment_authorized": false,
+  "environment": "paper-shadow",
+  "required_next_gate": "independent backtest-auditor review",
+  "schema_version": 1
+}

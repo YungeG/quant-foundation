@@ -1,0 +1,33 @@
+{
+  "receipt_id": "p00-legacy-pilot-retirement-v1",
+  "schema_version": 1,
+  "work_package": "P00-CUT-01",
+  "status": "static_historical_evidence",
+  "classification": "static_historical_evidence",
+  "scope": {
+    "system_root": "platform",
+    "write_boundary": "platform_only",
+    "legacy_repository_modified": false,
+    "legacy_repository_changes_require_separate_explicit_scope": true
+  },
+  "basis": {
+    "capture_receipt": "foundation/tests/fixtures/migration/pilot-v1/baseline.receipt.json",
+    "capture_receipt_sha256": "sha256:211f57465dd677d5640cafb9cfc5e19a068b565f9400df2217a015aa6f5d39b4",
+    "capture_manifest": "foundation/tests/fixtures/migration/pilot-v1/baseline.manifest.json",
+    "capture_manifest_sha256": "sha256:933bce7bf8eb9aa688301e7a0a454c8b5c0a9dbe6909fd19c5ce07493db80d5c"
+  },
+  "historical_capture": {
+    "recorded_command_versions_hashes_and_outputs": "historical_observations_only",
+    "hermetic_replay": "unavailable_not_claimed_without_separately_recorded_hermetic_environment"
+  },
+  "authority_decision": {
+    "legacy_repository": "crypto-quant-platform",
+    "legacy_commit": "57ffaafe838073a5f10a83dafc9b158fc567ccd0",
+    "retained_role": "static_historical_evidence_only",
+    "historical_simulation_authority": "backtest",
+    "new_platform_must_not_import_or_execute_legacy_pilot": true,
+    "captured_outputs_are_not_canonical_backtest_evidence": true,
+    "callable_adapter_in_new_platform": false
+  },
+  "guard": "foundation/tests/migration/test_pilot_retirement.py"
+}

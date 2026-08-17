@@ -1,0 +1,53 @@
+{
+  "deployment_authorized": false,
+  "net_pnl_quote": "-53.85868376952248711806261281",
+  "schema_version": 1,
+  "strategy": "causal_momentum_pilot_v1",
+  "trade_count": 4,
+  "trades": [
+    {
+      "decision_time_ms": 239999,
+      "direction": "long",
+      "entry_time_ms": 240000,
+      "exit_time_ms": 299999,
+      "fees": "0.7884160310794983860370782986",
+      "gross_price_pnl": "-28.95992230125403490730425344",
+      "net_pnl": "-29.74833833233353329334133174",
+      "observed_through_ms": 239999,
+      "quantity": "9.521905142780967616000609402"
+    },
+    {
+      "decision_time_ms": 299999,
+      "direction": "short",
+      "entry_time_ms": 300000,
+      "exit_time_ms": 359999,
+      "fees": "0.7883906193003306543661673511",
+      "gross_price_pnl": "29.02345174917336408458162221",
+      "net_pnl": "28.23506112987303343021545486",
+      "observed_through_ms": 299999,
+      "quantity": "9.805882745176486277647686400"
+    },
+    {
+      "decision_time_ms": 359999,
+      "direction": "short",
+      "entry_time_ms": 360000,
+      "exit_time_ms": 419999,
+      "fees": "0.8082440730570356495541532548",
+      "gross_price_pnl": "-20.61018264258912388538313724",
+      "net_pnl": "-21.41842671564615953493729049",
+      "observed_through_ms": 359999,
+      "quantity": "10.10303070715153131636428296"
+    },
+    {
+      "decision_time_ms": 419999,
+      "direction": "short",
+      "entry_time_ms": 420000,
+      "exit_time_ms": 479999,
+      "fees": "0.8120459735511458727389042164",
+      "gross_price_pnl": "-30.11493387786468184726054122",
+      "net_pnl": "-30.92697985141582771999944544",
+      "observed_through_ms": 419999,
+      "quantity": "9.902970693148530696238257553"
+    }
+  ]
+}

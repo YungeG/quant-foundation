@@ -1,0 +1,9 @@
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":0,"close_time_ms":59999,"open":"100","high":"102","low":"99","close":"101","volume":"10"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":60000,"close_time_ms":119999,"open":"101","high":"103","low":"100","close":"102","volume":"11"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":120000,"close_time_ms":179999,"open":"102","high":"104","low":"101","close":"103","volume":"12"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":180000,"close_time_ms":239999,"open":"103","high":"106","low":"102","close":"105","volume":"14"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":240000,"close_time_ms":299999,"open":"105","high":"106","low":"101","close":"102","volume":"15"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":300000,"close_time_ms":359999,"open":"102","high":"103","low":"98","close":"99","volume":"18"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":360000,"close_time_ms":419999,"open":"99","high":"102","low":"98","close":"101","volume":"13"}
+{"symbol":"ETHUSDT","interval":"1m","open_time_ms":420000,"close_time_ms":479999,"open":"101","high":"105","low":"100","close":"104","volume":"16"}
+

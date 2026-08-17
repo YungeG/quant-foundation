@@ -1,0 +1,14 @@
+{
+  "crypto-quant-core": {
+    "local_path": "../crypto-quant-core",
+    "version": "0.1.0",
+    "tag": "v0.1.0",
+    "commit": "348b9e56b99c8ee2999aa8cdfcf91a18ecce9019"
+  },
+  "pi-crypto-agents": {
+    "local_path": "../pi-crypto-agents",
+    "version": "0.1.0",
+    "tag": "v0.1.0",
+    "commit": "9eea7e41fe64688424ebae142265d8e456b8a975"
+  }
+}

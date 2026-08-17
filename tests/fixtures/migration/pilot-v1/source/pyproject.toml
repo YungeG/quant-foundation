@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crypto-quant-platform"
+version = "0.1.0"
+description = "Auditable crypto research-to-Hummingbot pilot platform"
+requires-python = ">=3.10"
+dependencies = [
+  "crypto-quant-core==0.1.0",
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+crypto-quant-pilot = "crypto_quant_platform.pipeline:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "../crypto-quant-core/src"]
+addopts = "-q"
+testpaths = ["tests"]
+

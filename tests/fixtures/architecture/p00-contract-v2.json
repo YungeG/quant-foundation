@@ -1,0 +1,82 @@
+{
+  "receipt_id": "p00-contract-v2",
+  "schema_version": 1,
+  "work_package": "P00-CON-02",
+  "evidence_kind": "narrow_contract_successor_receipt",
+  "status": "approved",
+  "supersedes": {
+    "receipt_id": "p00-contract-v1",
+    "only_downstream_unblock_conditions": [
+      "P00_LEG_01",
+      "P00_CUT_01"
+    ]
+  },
+  "decision": {
+    "legacy_evidence_rule": "existing immutable static historical capture plus retirement receipt is sufficient evidence for P00-LEG/P00-CUT",
+    "hermetic_replay_rule": "not required and must not be a P00-PLAT prerequisite",
+    "legacy_classification": "static_historical_evidence",
+    "not_claimed": [
+      "canonical_backtest_evidence",
+      "callable_legacy_adapter",
+      "economic_parity",
+      "hermetic_replay"
+    ]
+  },
+  "preserves": [
+    "ArtifactEnvelope v1",
+    "ArtifactRef",
+    "Backtest public seam",
+    "root workspace and lock rules",
+    "ownership rules",
+    "p00-contract-v1 fixture"
+  ],
+  "evidence": {
+    "p00_contract_v1": {
+      "path": "foundation/tests/fixtures/architecture/p00-contract-v1.json",
+      "sha256": "sha256:aebb1be1894d739b06856e012e4343d7835fc1ed0306d8c28a4bfb1d8025b782"
+    },
+    "static_capture_receipt": {
+      "path": "foundation/tests/fixtures/migration/pilot-v1/baseline.receipt.json",
+      "sha256": "sha256:211f57465dd677d5640cafb9cfc5e19a068b565f9400df2217a015aa6f5d39b4",
+      "classification": "static_historical_evidence"
+    },
+    "static_capture_manifest": {
+      "path": "foundation/tests/fixtures/migration/pilot-v1/baseline.manifest.json",
+      "sha256": "sha256:933bce7bf8eb9aa688301e7a0a454c8b5c0a9dbe6909fd19c5ce07493db80d5c",
+      "classification": "static_historical_evidence"
+    },
+    "retirement_receipt": {
+      "path": "foundation/tests/fixtures/migration/pilot-v1/retirement.receipt.json",
+      "sha256": "sha256:73dd1cb209cc6130ff3149423f1c080f4bfd27b300e8c4b4f8f6bfd30a1021e1",
+      "classification": "static_historical_evidence"
+    }
+  },
+  "approval_rule": {
+    "required_roles": [
+      "backtest_repository_owner",
+      "platform_repository_owner"
+    ],
+    "transition": "planned to approved only when both required roles are approved",
+    "approved_record_fields": [
+      "status",
+      "name",
+      "approved_at"
+    ],
+    "mutable_fields": [
+      "status",
+      "approvals"
+    ]
+  },
+  "approvals": {
+    "backtest_repository_owner": {
+      "status": "approved",
+      "name": "YungeG",
+      "approved_at": "2026-08-17T01:23:06.083983Z"
+    },
+    "platform_repository_owner": {
+      "status": "approved",
+      "name": "YungeG",
+      "approved_at": "2026-08-14T04:03:59.553705Z"
+    }
+  }
+}

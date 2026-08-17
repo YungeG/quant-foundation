@@ -1,0 +1,65 @@
+{
+  "classification": "static_historical_evidence",
+  "command": "PYTHONPATH=src:../crypto-quant-core/src python -m crypto_quant_platform.pipeline --config config/pilot.yaml --candles tests/fixtures/ethusdt_1m.jsonl --output tests/fixtures/migration/pilot-v1/output",
+  "command_exit": {
+    "code": 0,
+    "stderr": "",
+    "stdout": "backtest: tests/fixtures/migration/pilot-v1/output/backtest.json\ncontroller: tests/fixtures/migration/pilot-v1/output/hummingbot-controller.yml\nreadiness: tests/fixtures/migration/pilot-v1/output/shadow-readiness.json\n"
+  },
+  "commits": {
+    "core": "348b9e56b99c8ee2999aa8cdfcf91a18ecce9019",
+    "platform": "57ffaafe838073a5f10a83dafc9b158fc567ccd0"
+  },
+  "hermetic_replay": "unavailable_not_claimed_without_separately_recorded_hermetic_environment",
+  "input_hashes": {
+    "config/pilot.yaml": "sha256:2018c1c55f32d0ba2d1cf52fbc7def95a89ac9cd071badfc1af99cdfc3f02c3c",
+    "tests/fixtures/ethusdt_1m.jsonl": "sha256:b64487f128ce68779c77e5f377de82c600ff4431eed672c14b245681651d92d9"
+  },
+  "interpreter": {
+    "path": "/usr/bin/python",
+    "sys_executable": "/usr/bin/python",
+    "version": "3.13.5"
+  },
+  "observations": "Recorded command, versions, hashes, status, and outputs are historical observations only.",
+  "output_hashes": {
+    "backtest.json": "sha256:23e843c5b97eeb3ad26f3d0c181c96cd9a76d4c5cc0ec8cf266b884076f1795e",
+    "hummingbot-controller.yml": "sha256:0d40dc2afcbf6d8e33298888244c2b213bc54edca76208827d7a88f30ebb4f58",
+    "shadow-readiness.json": "sha256:c4475b83707c1b7317ee72797db41349ec48dd85fa709260a443a151a0fbfc6f"
+  },
+  "package_versions": {
+    "PyYAML": "6.0.3",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "python": "3.13.5"
+  },
+  "receipt_id": "p00-legacy-pilot-v1",
+  "required_non_authority_labels": {
+    "backtest.json": "legacy_backtest_json",
+    "hummingbot-controller.yml": "legacy_controller_yaml",
+    "shadow-readiness.json": "legacy_shadow_readiness"
+  },
+  "run_footprint": {
+    "capture_command": "PYTHONPATH=src:../crypto-quant-core/src python -m crypto_quant_platform.pipeline --config config/pilot.yaml --candles tests/fixtures/ethusdt_1m.jsonl --output tests/fixtures/migration/pilot-v1/output",
+    "output_path": "tests/fixtures/migration/pilot-v1/output",
+    "working_directory": "crypto-quant-platform"
+  },
+  "run_timestamp_utc": "2026-08-12T14:24:11Z",
+  "schema_version": 1,
+  "scoped_status": {
+    "crypto-quant-core": [],
+    "crypto-quant-platform": [
+      "?? tests/migration/",
+      "?? tests/fixtures/migration/"
+    ]
+  },
+  "source_hashes": {
+    "dependency-lock.json": "sha256:f96180cac83d48a52b0b5f21fba6087ef58518aa33cd75d44be71225b3af9618",
+    "pyproject.toml": "sha256:879bae14e457259500e7e4bd8df877403c5eab8e4c881627815e746b859f8de9",
+    "src/crypto_quant_platform/__init__.py": "sha256:605fb851eb3bc97473c8526fa4d9893acd88e4a3f94ff9a5c046314dd6c5be37",
+    "src/crypto_quant_platform/backtest.py": "sha256:f56a89cf9ac5c079cc226ae080b9bdb34ddd69b38bbbab11b004da40defd0de4",
+    "src/crypto_quant_platform/data.py": "sha256:f701ef5d6861da8b1495233d205d712e9cfb64328d007cfc20b98b4b65f3eb10",
+    "src/crypto_quant_platform/pipeline.py": "sha256:4b376c965584d35f0d6c7290539af6bcdd5bda3718a7b4b822c14139266e70a9"
+  },
+  "status": "static_historical_evidence",
+  "work_package": "P00-LEG-01"
+}

@@ -1,0 +1,889 @@
+{
+  "receipt_id": "p00-contract-v1",
+  "schema_version": 1,
+  "work_package": "P00-CON-01",
+  "evidence_kind": "planning_contract_receipt",
+  "not_an_artifact_envelope": true,
+  "status": "approved",
+  "normative_artifact": {
+    "fixture": "platform/foundation/tests/fixtures/architecture/p00-contract-v1.json",
+    "guard": "platform/foundation/tests/architecture/test_p00_contract.py",
+    "fixture_is_sole_machine_normative_artifact": true,
+    "markdown_status": "Human-readable approval rendering only; no additional planning copy is asserted to exist.",
+    "top_level_platform_directory": "independent_system_root_for_all_platform_modules"
+  },
+  "scope": {
+    "implementation_repository": "platform",
+    "p00_con_write_set": [
+      "foundation/tests/fixtures/architecture/p00-contract-v1.json",
+      "foundation/tests/architecture/test_p00_contract.py"
+    ],
+    "workspace_write_set": [
+      "platform/foundation/tests/fixtures/architecture/p00-contract-v1.json",
+      "platform/foundation/tests/architecture/test_p00_contract.py"
+    ],
+    "forbidden_in_p00_con": [
+      "runtime production code",
+      "pyproject.toml or any lockfile",
+      "pilot deletion or modification",
+      "speculative package skeletons",
+      "Backtest source changes",
+      "production implementation outside its owning platform module directory"
+    ],
+    "backtest_authority": "Backtest is the sole authority for historical fills, journals, accounting, PnL, canonical publication, terminal outcomes, verified evidence, and derived analysis.",
+    "contract_boundary": "This receipt freezes future seams and acceptance requirements; it does not claim future types or APIs exist at the inspection snapshot."
+  },
+  "inspection_snapshot": {
+    "workspace": "/home/ygguo/agent-projs/ai-crypt",
+    "backtest": {
+      "head": "68ceec7eb4dfe795d1265e39f54c0b6ff9b14232",
+      "working_tree_note": "An unrelated formatting-only change exists in packages/market-bundle-builder/pyproject.toml and .pi/ is untracked; cited domain/runtime files were inspected directly.",
+      "public_roots": [
+        "crypto_quant_domain",
+        "crypto_quant_backtest"
+      ],
+      "current_exported_types_and_signatures": {
+        "crypto_quant_domain": [
+          "ArtifactEnvelope(artifact_type: str, schema_version: int, payload: Any, content_hash: str)",
+          "ArtifactEnvelope.create(cls, artifact_type: str, schema_version: int, payload: Any) -> ArtifactEnvelope",
+          "ArtifactReadResult(envelope: ArtifactEnvelope, artifact: Any, source_bytes: bytes, source_hash: str)",
+          "ArtifactWriteResult(envelope: ArtifactEnvelope, source_bytes: bytes, source_hash: str)",
+          "SchemaCatalog.write_current(self, artifact_type: str, artifact: Any) -> ArtifactWriteResult",
+          "SchemaCatalog.read(self, source_bytes: bytes) -> ArtifactReadResult"
+        ],
+        "crypto_quant_backtest": [
+          "BacktestRequest(schema_version: int, experiment_id: str | None, timeline_window: TimelineWindow, market_semantics_profile_key: str, simulation_profile_key: str, execution_account_profile_key: str, execution_account_id: str, reporting_currency: CurrencyId, market_bundle_ref: MarketBundleRef, target_stream_digest: str, execution_case_semantic_hash: str, master_random_seed: int, build_artifact_manifest_hash: str, strategy_family: StrategyFamily, engine_kind: str, result_grade_requested: RequestedResultGrade)",
+          "ProfileResolver.resolve(self, *, request: BacktestRequest, registry: BacktestProfileRegistry, market_bundle_manifest: MarketBundleManifest, build_artifact_manifest: BuildArtifactManifest) -> BacktestResolutionOutcome",
+          "ExecutionCaseComposer.compose(self, *, resolved_request: ResolvedBacktestRequest, builder: _ExecutionCaseBuilder) -> ResolvedExecutionCase",
+          "AuditableBacktestRunner.execute(self, *, resolved_request: ResolvedBacktestRequest, execution_case: ResolvedExecutionCase, attempt: AttemptIdentity, input_origin: InputOrigin, cancellation: EngineCancellationRequest | None = None) -> AttemptExecutionRecord",
+          "AttemptEvidenceWriter.publish(self, record: AttemptExecutionRecord) -> EvidencePublicationOutcome",
+          "AttemptEvidenceWriter.verify(self, finalized: FinalizedAttemptEvidence) -> EvidencePublicationOutcome",
+          "CanonicalResultPublisher.publish(self, *, resolved_request: ResolvedBacktestRequest, attempt_hashes: tuple[AttemptExecutionHash, ...], finalized_attempts: tuple[FinalizedAttemptEvidence, ...], rebuild_evidence: DeterministicRebuildEvidence) -> CanonicalPublicationOutcome"
+        ],
+        "missing_future_public_symbols": [
+          "ArtifactRef",
+          "BacktestFacade",
+          "BacktestRequestRef",
+          "BacktestCanonicalPublicationRef",
+          "CompletedPublication",
+          "TerminalPublication",
+          "CanonicalEvidenceRepository",
+          "MetricProfile",
+          "AnalysisArtifactRef",
+          "run_and_publish",
+          "derive"
+        ]
+      }
+    },
+    "platform": {
+      "head": "57ffaafe838073a5f10a83dafc9b158fc567ccd0",
+      "current_state": "legacy_pilot_only",
+      "working_tree_note": "Only the two P00 receipt paths are untracked; no P00 production, pilot, metadata, or lockfile change was observed."
+    },
+    "legacy_core": {
+      "head": "348b9e56b99c8ee2999aa8cdfcf91a18ecce9019",
+      "pilot_command_observation": "The unchanged documented command fails before execution with ModuleNotFoundError: No module named 'numpy'."
+    },
+    "validation_observations": [
+      {
+        "command": "cd crypto-quant-platform && python -m json.tool tests/fixtures/architecture/p00-contract-v1.json >/dev/null",
+        "result": "passed under Python 3.13.5 for draft JSON syntax only"
+      },
+      {
+        "command": "cd crypto-quant-platform && uvx --python 3.13.5 --from 'pytest==8.4.2' pytest -q tests/architecture/test_p00_contract.py",
+        "result": "4 passed for the pre-correction draft guard only"
+      },
+      {
+        "command": "cd crypto-quant-platform && python -m pytest -q tests/architecture/test_p00_contract.py",
+        "result": "failed: /usr/bin/python: No module named pytest"
+      }
+    ]
+  },
+  "planning_reconciliation": {
+    "pending_rule": "While pending, the existing platform design documents remain behavioral authority under platform/implementation/roadmap.md:1-3; this fixture does not unilaterally supersede them.",
+    "acceptance_rule": "Both repository owners must explicitly record that this accepted receipt is the scoped P00 reconciliation authorized by roadmap.md:44-63,117-121. Approval may update only top-level status and approvals; every other frozen field remains unchanged.",
+    "physical_write_rule": "P00-CON-01 does not edit planning documents. A later planning erratum may copy the accepted reconciliation outside this two-path write set.",
+    "conflicts_reconciled_on_acceptance": [
+      {
+        "source": "platform/overall/design.md:59-67",
+        "rule": "run_and_publish returns BacktestPublicationOutcome; CompletedPublication carries the canonical ref and TerminalPublication carries verified durable terminal evidence. Consumers branch before derive."
+      },
+      {
+        "source": "platform/overall/design.md:262-272",
+        "rule": "Envelope v1 has exactly artifact_type, schema_version, payload, content_hash; it contains neither ArtifactRef, published_at, nor canonical payload bytes."
+      },
+      {
+        "source": "platform/overall/design.md:308-315,401-434",
+        "rule": "P00 starts the independent system under platform/foundation; later vertical implementations live under platform/research-platform, platform/strategy-validation, and platform/promotion-gate."
+      },
+      {
+        "source": "platform/research-platform/design.md:76-95,339-357; platform/strategy-validation/design.md:77-105",
+        "rule": "Their first vertical implementations return BacktestPublicationOutcome and invoke analysis only with CompletedPublication.publication_ref."
+      }
+    ],
+    "continuity": "One-Backtest authority, public facade/repository access, immutable analysis, no second PnL loop, ref-only registry intent, and deployment_authorized=false remain unchanged."
+  },
+  "evidence_anchors": [
+    {
+      "path": "platform/README.md",
+      "lines": "1-12",
+      "fact": "Indexes overall, Research, Validation, Promotion, CONTEXT, and roadmap documents.",
+      "required_fragments": [
+        "# Quant Platform Design",
+        "[整体设计](overall/design.md)",
+        "[并行实施路线图](implementation/roadmap.md)"
+      ]
+    },
+    {
+      "path": "platform/CONTEXT.md",
+      "lines": "75-100",
+      "fact": "Defines Artifact Ref as type/version/content hash and separates Artifact Store from Registry.",
+      "required_fragments": [
+        "**Artifact Ref**:",
+        "Artifact type、schema version 和 `sha256:` content hash",
+        "**Artifact Store**:"
+      ]
+    },
+    {
+      "path": "platform/implementation/roadmap.md",
+      "lines": "1-120,135-190,200-249",
+      "fact": "Defines behavioral-authority caveat, Backtest sole authority, all nine P00 decisions, acceptance cards, write rules, thin slice, and blocking sequence.",
+      "required_fragments": [
+        "The design documents under `platform/` remain the behavioral authority",
+        "Backtest remains the sole authority",
+        "ArtifactRef = (artifact_type, schema_version, content_hash)",
+        "CompletedPublication(publication_ref)",
+        "`platform/` is the independent system root",
+        "both repository owners approve",
+        "P00-BT-01",
+        "P00-PLAT-01",
+        "model_build_plan=None"
+      ]
+    },
+    {
+      "path": "platform/overall/design.md",
+      "lines": "55-67,262-272,308-315,342-355,401-435",
+      "fact": "Contains current linear completed-only flow, obsolete Envelope wording, three-package/registry proposal, and P00 scope that this receipt reconciles on acceptance.",
+      "required_fragments": [
+        "BacktestRequestRef",
+        "BacktestCanonicalPublicationRef",
+        "Artifact Envelope 保存 `ArtifactRef`",
+        "quant-research",
+        "quant-validation",
+        "quant-promotion",
+        "Artifact Store 与三个 Registry contract"
+      ]
+    },
+    {
+      "path": "platform/research-platform/design.md",
+      "lines": "60-95,339-357,418-424",
+      "fact": "Current Research gateway returns only BacktestCanonicalPublicationRef but otherwise requires public facade/repository access.",
+      "required_fragments": [
+        "class BacktestGateway(Protocol):",
+        ") -> BacktestCanonicalPublicationRef: ...",
+        "CanonicalEvidenceRepository",
+        "RP-03"
+      ]
+    },
+    {
+      "path": "platform/strategy-validation/design.md",
+      "lines": "56-105,360-367",
+      "fact": "Current Validation gateway returns only BacktestCanonicalPublicationRef and requires CanonicalEvidenceRepository rather than a private reader.",
+      "required_fragments": [
+        "class BacktestGateway(Protocol):",
+        ") -> BacktestCanonicalPublicationRef: ...",
+        "CanonicalEvidenceRepository",
+        "不得导入 Backtest 私有 reader"
+      ]
+    },
+    {
+      "path": "platform/promotion-gate/design.md",
+      "lines": "170-185,250-265",
+      "fact": "Uses outer published-at governance fact for freshness and fixes deployment_authorized=false.",
+      "required_fragments": [
+        "published-at governance fact",
+        "deployment_authorized: bool = False"
+      ]
+    },
+    {
+      "path": "backtest/packages/trading-domain/src/crypto_quant_domain/canonical.py",
+      "lines": "21-35,166-180",
+      "fact": "CanonicalSchema validates type/version syntax and canonical_bytes yields canonical UTF-8 JSON.",
+      "required_fragments": [
+        "class CanonicalSchema:",
+        "schema name must be canonical lowercase text",
+        "def canonical_bytes(value: Any) -> bytes:"
+      ]
+    },
+    {
+      "path": "backtest/packages/trading-domain/src/crypto_quant_domain/artifacts.py",
+      "lines": "14-17,61-114,129-162,165-224",
+      "fact": "ArtifactEnvelope has exact four fields and a three-field body hash; read/write results validate canonical source bytes/source hash; ArtifactRef is absent.",
+      "required_fragments": [
+        "_ENVELOPE_FIELDS",
+        "class ArtifactEnvelope:",
+        "def create(",
+        "class ArtifactReadResult:",
+        "source_bytes must be the canonical envelope bytes",
+        "class SchemaCatalog:"
+      ]
+    },
+    {
+      "path": "backtest/packages/trading-domain/src/crypto_quant_domain/__init__.py",
+      "lines": "16-33,108-194",
+      "fact": "Domain root exports ArtifactEnvelope/catalog results and not ArtifactRef.",
+      "required_fragments": [
+        "ArtifactEnvelope",
+        "ArtifactReadResult",
+        "SchemaCatalog"
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/src/crypto_quant_backtest/__init__.py",
+      "lines": "1-548",
+      "fact": "Runtime root exports low-level pieces and none of the future facade/tagged-ref/outcome/repository/metric/analysis symbols.",
+      "required_fragments": [
+        "BacktestRequest",
+        "BacktestRunOutcome",
+        "ProfileResolver",
+        "AuditableBacktestRunner",
+        "CanonicalResultPublisher"
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/src/crypto_quant_backtest/resolution.py",
+      "lines": "63-71,721-792,961-1002,1083-1176",
+      "fact": "Current APIs are BacktestRequest, BacktestResolutionFailure, and ProfileResolver.resolve; PRECOMPUTED_TARGET and development grade exist.",
+      "required_fragments": [
+        "PRECOMPUTED_TARGET = \"precomputed_target\"",
+        "class BacktestRequest:",
+        "class BacktestResolutionFailure:",
+        "class ProfileResolver:",
+        "def resolve("
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/src/crypto_quant_backtest/composition.py",
+      "lines": "335-383",
+      "fact": "ExecutionCaseComposer.compose requires a caller-supplied builder.",
+      "required_fragments": [
+        "def compose(",
+        "builder: _ExecutionCaseBuilder",
+        "builder must provide semantic_spec and build"
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/src/crypto_quant_backtest/runner.py",
+      "lines": "101-119,811-938",
+      "fact": "BacktestRunOutcome is COMPLETED/BLOCKED/FAILED/CANCELLED and AuditableBacktestRunner.execute requires resolved request, case, attempt, origin, and publication root.",
+      "required_fragments": [
+        "class InputOrigin(str, Enum):",
+        "PRECOMPUTED_TARGET_STREAM",
+        "class BacktestRunOutcome(str, Enum):",
+        "class AuditableBacktestRunner:",
+        "def execute(",
+        "publication_root"
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/src/crypto_quant_backtest/evidence.py",
+      "lines": "58-75,135-219,386-623",
+      "fact": "Immutable attempt evidence supports direct BLOCKED, FAILED, CANCELLED forms and verification.",
+      "required_fragments": [
+        "class EvidencePublicationStatus(str, Enum):",
+        "BLOCKED = \"BLOCKED\"",
+        "CANCELLED = \"CANCELLED\"",
+        "class EvidenceManifest:",
+        "class AttemptEvidenceWriter:",
+        "def verify("
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/src/crypto_quant_backtest/integrity.py",
+      "lines": "752-828,932-983,987-1110,1241-1464",
+      "fact": "Immutable canonical/integrity-evaluation manifests distinguish canonical from BLOCKED/FAILED evaluation paths.",
+      "required_fragments": [
+        "class CanonicalPublicationManifest:",
+        "publication_kind",
+        "integrity_evaluation",
+        "class IntegrityEvaluationRecord:",
+        "class CanonicalResultPublisher:",
+        "def publish("
+      ]
+    },
+    {
+      "path": "backtest/docs/architecture/backtest-system-design.md",
+      "lines": "1851-1861,1901-1924,1950-1971",
+      "fact": "Analysis is independent of canonical evidence; retention/cache checks fail closed; MetricProfile has eight dimensions; metrics do not change execution_result_hash.",
+      "required_fragments": [
+        "派生分析独立存放，不修改 immutable canonical evidence",
+        "publication-manifest.json",
+        "execution_result_hash",
+        "MetricProfile",
+        "valuation schedule",
+        "canonical/"
+      ]
+    },
+    {
+      "path": "backtest/tests/runtime/resolution/_fixtures.py",
+      "lines": "218-249",
+      "fact": "Current fixture route is PRECOMPUTED_TARGET at development grade.",
+      "required_fragments": [
+        "RequestedResultGrade.DEVELOPMENT",
+        "StrategyFamily.PRECOMPUTED_TARGET"
+      ]
+    },
+    {
+      "path": "backtest/tests/runtime/integration/test_g07_auditable_run.py",
+      "lines": "47-163",
+      "fact": "G07 proves manually-composed two-attempt development publication and verified cache-without-rerun behavior, not the future facade.",
+      "required_fragments": [
+        "test_two_attempts_publish_one_auditable_development_result",
+        "len(journey.engine_calls) == 2",
+        "test_closed_semantic_run_returns_verified_cache_without_rerunning_engine",
+        "engine.calls == []"
+      ]
+    },
+    {
+      "path": "backtest/packages/backtest-runtime/pyproject.toml",
+      "lines": "5-19",
+      "fact": "Backtest runtime requires Python >=3.13,<3.14 and closure domain/market-data/trading.",
+      "required_fragments": [
+        "name = \"crypto-quant-backtest\"",
+        "requires-python = \">=3.13,<3.14\"",
+        "crypto-quant-market-data",
+        "crypto-quant-trading"
+      ]
+    },
+    {
+      "path": "backtest/uv.lock",
+      "lines": "25-38,61-65,75-85",
+      "fact": "Backtest workspace lock contains editable sources and bundle builder; it is not a Platform lock input.",
+      "required_fragments": [
+        "editable = \"packages/backtest-runtime\"",
+        "editable = \"packages/trading-domain\"",
+        "crypto-quant-bundle-builder"
+      ]
+    },
+    {
+      "path": "crypto-quant-platform/pyproject.toml",
+      "lines": "5-24",
+      "fact": "Current pilot targets Python >=3.10, has no pytest dependency, depends on crypto-quant-core, exposes crypto-quant-pilot, and configures sibling-source pytest paths.",
+      "required_fragments": [
+        "requires-python = \">=3.10\"",
+        "crypto-quant-core==0.1.0",
+        "crypto-quant-pilot",
+        "pythonpath = [\"src\", \"../crypto-quant-core/src\"]"
+      ]
+    },
+    {
+      "path": "crypto-quant-platform/src/crypto_quant_platform/__init__.py",
+      "lines": "1-5",
+      "fact": "Root exports retained BacktestConfig/run_causal_momentum_backtest.",
+      "required_fragments": [
+        "BacktestConfig",
+        "run_causal_momentum_backtest"
+      ]
+    },
+    {
+      "path": "crypto-quant-platform/src/crypto_quant_platform/backtest.py",
+      "lines": "9-93",
+      "fact": "Retained pilot is a second Fill/PnL historical loop.",
+      "required_fragments": [
+        "class BacktestConfig:",
+        "def run_causal_momentum_backtest(",
+        "Fill(",
+        "calculate_closed_trade"
+      ]
+    },
+    {
+      "path": "crypto-quant-platform/src/crypto_quant_platform/pipeline.py",
+      "lines": "16-65",
+      "fact": "Retained pilot writes backtest.json, hummingbot-controller.yml, shadow-readiness.json.",
+      "required_fragments": [
+        "def run_pipeline(",
+        "backtest.json",
+        "hummingbot-controller.yml",
+        "shadow-readiness.json"
+      ]
+    },
+    {
+      "path": "crypto-quant-core/pyproject.toml",
+      "lines": "5-14",
+      "fact": "Core declares numpy>=1.24, pandas>=2.0, PyYAML>=6.0.",
+      "required_fragments": [
+        "numpy>=1.24",
+        "pandas>=2.0",
+        "PyYAML>=6.0"
+      ]
+    },
+    {
+      "path": "crypto-quant-core/src/crypto_quant_core/__init__.py",
+      "lines": "3-12",
+      "fact": "Core root imports portfolio.",
+      "required_fragments": [
+        "from .portfolio import"
+      ]
+    },
+    {
+      "path": "crypto-quant-core/src/crypto_quant_core/portfolio.py",
+      "lines": "1-7",
+      "fact": "Portfolio imports numpy and pandas before the pilot runs.",
+      "required_fragments": [
+        "import numpy as np",
+        "import pandas as pd"
+      ]
+    }
+  ],
+  "decisions": {
+    "artifact_identity": {
+      "owner": "Backtest domain owner via crypto_quant_domain in P00-DOM-01",
+      "availability_at_snapshot": "ArtifactEnvelope exists; ArtifactRef does not yet exist.",
+      "current_exported_signatures": [
+        "ArtifactEnvelope(artifact_type: str, schema_version: int, payload: Any, content_hash: str)",
+        "ArtifactEnvelope.create(cls, artifact_type: str, schema_version: int, payload: Any) -> ArtifactEnvelope",
+        "SchemaCatalog.write_current(self, artifact_type: str, artifact: Any) -> ArtifactWriteResult",
+        "SchemaCatalog.read(self, source_bytes: bytes) -> ArtifactReadResult"
+      ],
+      "artifact_envelope_v1": {
+        "wire_fields_in_exact_set": [
+          "artifact_type",
+          "schema_version",
+          "payload",
+          "content_hash"
+        ],
+        "content_hash_preimage": [
+          "artifact_type",
+          "schema_version",
+          "payload"
+        ],
+        "content_hash_rule": "sha256(canonical JSON of the three-field body)",
+        "source_hash_rule": "sha256(exact canonical UTF-8 bytes of the four-field ArtifactEnvelope); source_hash is carried by ArtifactReadResult/ArtifactWriteResult, not ArtifactEnvelope.",
+        "must_not_change_in_p00_dom": [
+          "wire fields",
+          "content-hash preimage",
+          "existing golden envelope bytes",
+          "existing golden body and source hashes"
+        ],
+        "golden_vector": {
+          "artifact_type": "example.position-snapshot",
+          "schema_version": 1,
+          "payload": {
+            "identifier": "α",
+            "count": 7
+          },
+          "expected_content_hash": "sha256:12c8a42dd27c400065f7c3f5dd701f17c40076fbfdfe3c235f3fbf123b71e75c",
+          "expected_source_utf8": "{\"artifact_type\":\"example.position-snapshot\",\"content_hash\":\"sha256:12c8a42dd27c400065f7c3f5dd701f17c40076fbfdfe3c235f3fbf123b71e75c\",\"payload\":{\"count\":7,\"identifier\":\"α\"},\"schema_version\":1}",
+          "expected_source_hash": "sha256:d0f9495734ac9e43dcee5904bd6ce1cb1b45d74feaefe0862123244e3160d020",
+          "source_fixture": "backtest/tests/fixtures/domain/artifact-envelope-catalog-v1.json"
+        }
+      },
+      "artifact_ref_v1_required_from_p00_dom": {
+        "representation": "ArtifactRef = (artifact_type, schema_version, content_hash), where content_hash equals ArtifactEnvelope.content_hash.",
+        "python_contract": [
+          "@dataclass(frozen=True, slots=True)",
+          "class ArtifactRef:",
+          "    artifact_type: str",
+          "    schema_version: int",
+          "    content_hash: str",
+          "    @classmethod",
+          "    def from_envelope(cls, envelope: ArtifactEnvelope) -> ArtifactRef: ...",
+          "    def to_canonical_dict(self) -> dict[str, object]: ..."
+        ],
+        "field_validation": "CanonicalSchema validates artifact_type/schema_version; content_hash is lowercase sha256:<64 hex>; schema_version is the referred artifact version, not a reference-schema version.",
+        "canonical_wire": {
+          "type": "artifact_ref",
+          "artifact_type": "example.position-snapshot",
+          "schema_version": 1,
+          "content_hash": "sha256:12c8a42dd27c400065f7c3f5dd701f17c40076fbfdfe3c235f3fbf123b71e75c"
+        },
+        "canonical_hash": "sha256:2ec08db06c06590c9778d99916c40646ce5bc848b77f4cb17a466463ede7466d",
+        "dereference_rule": "ArtifactRef.from_envelope(returned_envelope) must equal requested coordinates or dereference fails closed.",
+        "never_in_artifact_ref": [
+          "source_hash",
+          "source bytes",
+          "filesystem path",
+          "payload",
+          "published_at",
+          "a separate reference schema version"
+        ],
+        "catalog_rule": "Structural construction/matching needs no SchemaCatalog registration; catalogs decode payloads.",
+        "self_reference_rule": "No generic recursive self-reference scanner; artifact-specific schemas own semantic prohibitions.",
+        "relation_to_envelope": "ArtifactRef.from_envelope(envelope) returns exactly envelope artifact_type, schema_version, content_hash."
+      }
+    },
+    "governance_time": {
+      "rule": "published_at is an immutable outer governance/publication-event fact about an already-addressed artifact.",
+      "must_not_appear_in": [
+        "referred ArtifactEnvelope v1 fields",
+        "its content-hash preimage",
+        "canonical Backtest publication manifest",
+        "canonical Backtest result evidence"
+      ],
+      "outer_event_rule": "No governance-event schema/type, publisher identity, or new timestamp serialization is frozen. A later enveloped governance event may carry its own timestamp without changing the referred envelope identity.",
+      "planning_correction_on_acceptance": "Subject to planning_reconciliation, overall/design.md:262-272 is corrected for Envelope v1 only."
+    },
+    "backtest_public_seam": {
+      "owner": "Backtest runtime owner via crypto_quant_backtest; P00-BT-01 implementation is absent at snapshot.",
+      "consumer_public_root": "crypto_quant_backtest",
+      "consumer_api": {
+        "signatures": [
+          "def run_and_publish(self, *, request_ref: BacktestRequestRef) -> BacktestPublicationOutcome: ...",
+          "def derive(self, *, publication_ref: BacktestCanonicalPublicationRef, metric_profile_ref: ArtifactRef) -> AnalysisArtifactRef: ..."
+        ],
+        "outcome_alias": "BacktestPublicationOutcome = CompletedPublication | TerminalPublication",
+        "python_type_contract": [
+          "@dataclass(frozen=True, slots=True)",
+          "class CompletedPublication:",
+          "    publication_ref: BacktestCanonicalPublicationRef",
+          "@dataclass(frozen=True, slots=True)",
+          "class TerminalPublication:",
+          "    status: BacktestRunOutcome",
+          "    durable_evidence_ref: ArtifactRef",
+          "BacktestPublicationOutcome: TypeAlias = CompletedPublication | TerminalPublication"
+        ],
+        "terminal_statuses_exact": [
+          "BLOCKED",
+          "FAILED",
+          "CANCELLED"
+        ],
+        "prohibited_terminal_status": "COMPLETED",
+        "error_rule": "Malformed/missing/tampered refs, invariant/composition errors, and failed durable writes or verification raise BacktestFacadeError; none is represented as TerminalPublication."
+      },
+      "tagged_reference_contracts": {
+        "BacktestRequestRef": {
+          "target": {
+            "artifact_type": "backtest_request",
+            "schema_version": 1
+          },
+          "python_contract": "@dataclass(frozen=True, slots=True) class BacktestRequestRef: artifact_ref: ArtifactRef; from_artifact_ref(cls, artifact_ref: ArtifactRef) -> BacktestRequestRef; to_artifact_ref(self) -> ArtifactRef.",
+          "conversion_rule": "Public conversion is non-I/O and validates only wrapped ArtifactRef type/version; it performs no read, path lookup, catalog decode, or payload inspection."
+        },
+        "BacktestCanonicalPublicationRef": {
+          "target": {
+            "artifact_type": "canonical_publication_manifest",
+            "schema_version": 1,
+            "required_payload_field": {
+              "publication_kind": "canonical"
+            }
+          },
+          "python_contract": "@dataclass(frozen=True, slots=True) class BacktestCanonicalPublicationRef: artifact_ref: ArtifactRef; from_artifact_ref(cls, artifact_ref: ArtifactRef) -> BacktestCanonicalPublicationRef; to_artifact_ref(self) -> ArtifactRef.",
+          "conversion_rule": "Public conversion is non-I/O and validates only wrapped ArtifactRef type/version. publication_kind=canonical is verified only after dereference, source-byte/source-hash/coordinate validation, and payload decoding."
+        },
+        "AnalysisArtifactRef": {
+          "rule": "Opaque Backtest-owned tagged wrapper. P00-BT-01 freezes type/schema/golden wire before export; Platform stores/returns it only and never fabricates, downcasts, or substitutes ArtifactRef."
+        }
+      },
+      "durable_terminal_evidence": {
+        "return_precondition": "Backtest verifies immutable evidence root and requested ArtifactRef coordinate before TerminalPublication.",
+        "routes": [
+          {
+            "when": "direct execution terminal",
+            "artifact_type": "evidence_manifest",
+            "schema_version": 1,
+            "statuses": [
+              "BLOCKED",
+              "FAILED",
+              "CANCELLED"
+            ],
+            "verification": "terminal_outcome/evidence status equals returned status and manifest exact-covers immutable attempt evidence"
+          },
+          {
+            "when": "post-integrity terminal",
+            "artifact_type": "canonical_publication_manifest",
+            "schema_version": 1,
+            "statuses": [
+              "BLOCKED",
+              "FAILED"
+            ],
+            "verification": "publication_kind=integrity_evaluation and evaluation outcome equals returned status"
+          },
+          {
+            "when": "resolution/profile/environment block",
+            "artifact_type": "backtest_resolution_failure",
+            "schema_version": 1,
+            "statuses": [
+              "BLOCKED"
+            ],
+            "verification": "P00-BT-01 envelopes, durably publishes, and verifies current failure before return"
+          }
+        ],
+        "precedence": [
+          "verified canonical cache hit without rerun",
+          "verified direct terminal",
+          "verified integrity terminal",
+          "verified durable resolution block",
+          "persistence/verification failure is exception, never terminal relabeling"
+        ]
+      },
+      "hydration_and_composition": {
+        "input_port": "class ArtifactEnvelopeReader(Protocol): def read(self, *, ref: ArtifactRef) -> ArtifactReadResult: ...",
+        "reader_postcondition": "Source bytes/source hash validate under current domain rules and ArtifactRef.from_envelope(result.envelope) equals requested ref; otherwise fail closed.",
+        "backtest_owns": [
+          "request decoding/validation",
+          "profile lookup/resolution",
+          "market/build/target hydration",
+          "builder selection/composition",
+          "attempts/evidence/integrity/cache/publication",
+          "initial analysis persistence"
+        ],
+        "platform_must_not_supply": [
+          "ProfileResolver",
+          "BacktestProfileRegistry",
+          "ExecutionCaseComposer",
+          "execution-case builder",
+          "AuditableBacktestRunner",
+          "AttemptIdentity",
+          "AttemptEvidenceWriter",
+          "CanonicalResultPublisher",
+          "engine state",
+          "Backtest filesystem path"
+        ],
+        "platform_cas_boundary": "P00-PLAT-01 generic CAS reader imports only public crypto_quant_domain structural types and validates bytes/envelope/source hash/requested coordinates. It does not import crypto_quant_backtest, future Backtest protocols/tagged refs, Backtest artifact rules, or Backtest decoders. P00-SEAM-01 injects compatible structural storage after accepted P00-BT-01/P00-PLAT-01 receipts; Backtest supplies decoder and semantics.",
+        "reader_ownership": "P00-BT-01 owns ArtifactEnvelopeReader type and all hydration decisions; P00-PLAT-01 later owns only generic structural CAS; P00-SEAM-01 injects compatible bindings after both receipts.",
+        "request_hydration_scope": "BacktestRequest is decoded from BacktestRequestRef. Exact market/build/target envelope types, profile binding, builder choice, and composition are P00-BT-01 acceptance details; P00-CON declares no Platform-side Backtest composition path."
+      }
+    },
+    "verified_evidence_and_analysis": {
+      "owner": "Backtest runtime owner in P00-BT-01; absent at snapshot.",
+      "repository_api": [
+        "class CanonicalEvidenceRepository(Protocol):",
+        "    def read_backtest(self, *, ref: BacktestCanonicalPublicationRef) -> BacktestEvidenceView: ...",
+        "    def read_analysis(self, *, ref: AnalysisArtifactRef) -> AnalysisArtifact: ..."
+      ],
+      "read_backtest_verifies": [
+        "requested coordinate",
+        "canonical envelope bytes/source hash",
+        "manifest exact coverage and child type/schema/content/source hash/bytes",
+        "canonical-attempt/integrity/completed-result chain",
+        "COMPLETED plus publication_kind=canonical",
+        "MarketBundle retention"
+      ],
+      "read_analysis_verifies": [
+        "analysis envelope/ref",
+        "source canonical publication",
+        "source execution_result_hash",
+        "exact metric_profile_ref"
+      ],
+      "fail_closed_on": [
+        "missing/tampered/noncanonical artifact",
+        "identity/hash mismatch",
+        "incomplete manifest/chain",
+        "missing/invalid retention"
+      ],
+      "derive_rule": "Only BacktestCanonicalPublicationRef is accepted; terminal evidence is rejected; exact metric_profile_ref and completed execution_result_hash bind persisted Backtest-owned analysis; canonical bytes, attempt evidence, and execution_result_hash never change."
+    },
+    "thin_slice_and_metric_profile": {
+      "route": {
+        "strategy_family": "StrategyFamily.PRECOMPUTED_TARGET",
+        "input_origin": "InputOrigin.PRECOMPUTED_TARGET_STREAM",
+        "grade": "development",
+        "fixture_only": true,
+        "promotion_eligibility": "never; the P00 synthetic development route cannot satisfy Promotion policy",
+        "model_build_plan_rule": "model_build_plan=None belongs to future Platform ExperimentSpec, not current BacktestRequest."
+      },
+      "p00_bt_fixture_requirements": [
+        "request ArtifactRef hydrates only through facade to two-attempt CompletedPublication",
+        "real precomputed-target block returns durable BLOCKED terminal",
+        "FAILED and CANCELLED return distinct durable refs",
+        "completed repeat returns same verified ref without engine execution",
+        "envelope/manifest/hash-chain/retention tampering fails closed",
+        "derive rejects terminal and persists analysis for completed publication"
+      ],
+      "minimal_metric_profile_required_from_p00_bt": {
+        "availability_at_snapshot": "No MetricProfile, analysis runtime, AnalysisArtifact, or AnalysisArtifactRef exists.",
+        "owner_and_storage": "Backtest-owned enveloped artifact addressed by ArtifactRef; P00-BT-01 freezes type/schema/golden wire.",
+        "required_dimensions": [
+          "valuation_schedule",
+          "return_method",
+          "annualization_basis",
+          "risk_free_source",
+          "cash_flow_treatment",
+          "drawdown_sampling",
+          "reporting_currency",
+          "benchmark"
+        ],
+        "first_fixture_semantics": {
+          "valuation_schedule": "initial_and_run_end",
+          "return_method": "simple_period_return",
+          "annualization_basis": "none",
+          "risk_free_source": "zero_rate",
+          "cash_flow_treatment": "initial_capital_only_reject_later_external_flows",
+          "drawdown_sampling": "initial_and_run_end_valuation_points",
+          "reporting_currency": "USD",
+          "benchmark": "none"
+        },
+        "constraints": [
+          "unavailable metrics are unavailable, never zero or Promotion evidence",
+          "no annualized, risk-free-adjusted, benchmark-relative, walk-forward, or stress conclusion",
+          "this receipt freezes no formula/result-field set/analysis type"
+        ],
+        "metric_result_scope": "P00-BT-01 must define deterministic AnalysisArtifact output only for metrics supported by source canonical evidence and this profile; no formula, result-field set, or analysis type is frozen here."
+      },
+      "downstream_first_thin_slice": {
+        "implemented_by": "RP-THIN-02 after P00-SEAM-01",
+        "candidate_producing_backtest_trials": 4,
+        "completed_trials": 3,
+        "durably_blocked_trials": 1,
+        "model_build_plan": null,
+        "analysis_ref_per_completed_trial": true,
+        "boundary_rule": "All crossings use Backtest public root only.",
+        "promotion_result": {
+          "decision": "needs_more_evidence",
+          "shadow_spec_ref": null,
+          "deployment_authorized": false
+        }
+      }
+    },
+    "clean_install_topology": {
+      "owner": "Platform foundation owner in P00-PLAT-01 after P00-BT-01 acceptance commit.",
+      "target_python": ">=3.13,<3.14",
+      "distribution": "Independent Platform system rooted at platform/; foundation owns its module package, and research-platform, strategy-validation, and promotion-gate own their respective module packages.",
+      "minimum_direct_dependencies": [
+        "crypto-quant-backtest==0.1.0",
+        "crypto-quant-domain==0.1.0"
+      ],
+      "uv_source_template": {
+        "revision_rule": "Every entry uses one identical full 40-character lowercase P00-BT-01 acceptance SHA; no branch, tag-only, sibling path, editable source, or PYTHONPATH.",
+        "crypto-quant-backtest": {
+          "git": "https://github.com/YungeG/quant-backtest.git",
+          "rev": "<P00-BT-01-accepted-full-40-character-SHA>",
+          "subdirectory": "packages/backtest-runtime"
+        },
+        "crypto-quant-domain": {
+          "git": "https://github.com/YungeG/quant-backtest.git",
+          "rev": "<P00-BT-01-accepted-full-40-character-SHA>",
+          "subdirectory": "packages/trading-domain"
+        },
+        "crypto-quant-market-data": {
+          "git": "https://github.com/YungeG/quant-backtest.git",
+          "rev": "<P00-BT-01-accepted-full-40-character-SHA>",
+          "subdirectory": "packages/market-data-contracts"
+        },
+        "crypto-quant-trading": {
+          "git": "https://github.com/YungeG/quant-backtest.git",
+          "rev": "<P00-BT-01-accepted-full-40-character-SHA>",
+          "subdirectory": "packages/trading-kernel"
+        }
+      },
+      "closure_rule": "Backtest runtime closure is backtest -> domain, market-data, trading; crypto-quant-bundle-builder is not a Platform runtime dependency/source mapping.",
+      "current_fact": "No functional P00-BT-01 SHA exists at snapshot.",
+      "clean_install_acceptance": [
+        "record P00-BT-01 full SHA and create Platform uv.lock",
+        "uv lock --check",
+        "remove environment; uv sync --locked",
+        "python -I imports crypto_quant_domain and crypto_quant_backtest from site-packages, not siblings",
+        "do not copy backtest/uv.lock"
+      ],
+      "hosted_wheel_status": "No immutable hosted wheel/checksum or usable release tag is recorded; full-SHA Git package sources are the frozen P00 route."
+    },
+    "ownership_and_public_boundary": {
+      "owner_map": {
+        "p00_release_owner": "Coordinator only",
+        "repository_owners": "Only required approvers",
+        "backtest_domain_owner": "P00-DOM-01 ArtifactRef/root export/envelope compatibility",
+        "backtest_runtime_owner": "P00-BT-01 seam/hydration/simulation/evidence/analysis/root exports/lock",
+        "platform_migration_owner": "P00-LEG-01/P00-CUT-01 pilot capture/retirement",
+        "platform_foundation_owner": "P00-PLAT-01 metadata/lock/root/foundation CAS/append/import policy",
+        "research_validation_promotion": "Later consume public refs/shared append APIs only",
+        "crypto_quant_core": "Legacy provenance only"
+      },
+      "public_import_roots": [
+        "crypto_quant_domain",
+        "crypto_quant_backtest"
+      ],
+      "forbidden": [
+        "nested crypto_quant_domain or crypto_quant_backtest imports",
+        "direct Backtest evidence paths",
+        "private readers/engine state/Resolver/Runner/Publisher composition",
+        "Platform Fill/Journal/PnL/historical simulation"
+      ],
+      "enforcement": "P00-PLAT-01 adds scoped AST check only for new foundation production code until P00-CUT-01 removes pilot."
+    },
+    "legacy_fixture_boundary": {
+      "owner": "Platform migration owner in P00-LEG-01",
+      "route": "platform/foundation/tests/fixtures/migration/pilot-v1/**",
+      "static_test_only": true,
+      "capture_command": "PYTHONPATH=src:../crypto-quant-core/src python -m crypto_quant_platform.pipeline --config config/pilot.yaml --candles tests/fixtures/ethusdt_1m.jsonl --output <staging-output>",
+      "legacy_only_py_path_exception": "Allowed only for unchanged legacy capture, never future Platform runtime/install.",
+      "capture_must_record": [
+        "clean Platform/core commit-status evidence",
+        "interpreter/package versions",
+        "command and source/config/input/output hashes",
+        "pilot source/metadata",
+        "backtest.json",
+        "hummingbot-controller.yml",
+        "shadow-readiness.json"
+      ],
+      "inspection_input_sha256": {
+        "config/pilot.yaml": "2018c1c55f32d0ba2d1cf52fbc7def95a89ac9cd071badfc1af99cdfc3f02c3c",
+        "tests/fixtures/ethusdt_1m.jsonl": "b64487f128ce68779c77e5f377de82c600ff4431eed672c14b245681651d92d9",
+        "src/crypto_quant_platform/backtest.py": "f56a89cf9ac5c079cc226ae080b9bdb34ddd69b38bbbab11b004da40defd0de4",
+        "src/crypto_quant_platform/pipeline.py": "4b376c965584d35f0d6c7290539af6bcdd5bda3718a7b4b822c14139266e70a9",
+        "pyproject.toml": "879bae14e457259500e7e4bd8df877403c5eab8e4c881627815e746b859f8de9",
+        "dependency-lock.json": "f96180cac83d48a52b0b5f21fba6087ef58518aa33cd75d44be71225b3af9618",
+        "src/crypto_quant_platform/__init__.py": "605fb851eb3bc97473c8526fa4d9893acd88e4a3f94ff9a5c046314dd6c5be37",
+        "src/crypto_quant_platform/data.py": "f701ef5d6861da8b1495233d205d712e9cfb64328d007cfc20b98b4b65f3eb10"
+      },
+      "blocker": "Provision a clean isolated environment from existing declared metadata and rerun unchanged; current run fails ModuleNotFoundError: numpy before execution. Do not alter pilot or lockfile.",
+      "non_authority_rule": "backtest.json is legacy evidence only, never Backtest canonical evidence, parity proof, or economics authority.",
+      "later_cutover": "Only P00-CUT-01 removes crypto-quant-pilot, root BacktestConfig/run_causal_momentum_backtest exports, Fill/PnL loop, controller output; no callable adapter remains."
+    }
+  },
+  "deferrals_and_exclusions": [
+    "P00-CON-01 implements none of ArtifactRef, BacktestFacade, tagged refs, ArtifactEnvelopeReader, CanonicalEvidenceRepository, MetricProfile, AnalysisArtifact, derive, or Backtest storage adapters.",
+    "No functional Backtest SHA is pinned before P00-BT-01; P00-PLAT-01 records it after acceptance.",
+    "No generic self-reference scanner, governance-event schema, registry/storage implementation, package scaffold, queue, database, or service.",
+    "Feature/model/trainer ABI, runtime strategy/model route, full metrics, walk-forward/stress, positive Promotion, Shadow Runtime, credentials/live orders, and economic parity are out of scope.",
+    "Research/Validation gateways adopt BacktestPublicationOutcome only when their first vertical implementation begins.",
+    "Pilot remains callable until P00-CUT-01."
+  ],
+  "downstream_unblock_conditions": {
+    "P00_CON_01_acceptance": "Both repository owners approve frozen fields and explicit reconciliation. Only status/approvals may change; release owner is coordinator-only.",
+    "P00_DOM_01": "After P00-CON acceptance, implement/export ArtifactRef preserving Envelope v1 golden bytes.",
+    "P00_LEG_01": "Blocked until clean isolated legacy capture succeeds unchanged.",
+    "P00_CUT_01": "Requires P00-LEG-01 receipt.",
+    "P00_BT_01": "Requires P00-DOM-01 acceptance.",
+    "P00_PLAT_01": "Requires P00-DOM-01 and P00-CUT-01 evidence; sole metadata/lock/root writer.",
+    "P00_SEAM_01": "Requires accepted P00-BT-01 and P00-PLAT-01; injects compatible generic reader and writes integration evidence only."
+  },
+  "guard_spec": {
+    "location": "platform/foundation/tests/architecture/test_p00_contract.py",
+    "implementation_rule": "Rewrite the draft guard in the P00-CON write set. It may use pytest assertions, but all fixture/hash/path/range/source/AST work uses only the Python standard library.",
+    "required_checks": [
+      "Require exact fixture top-level schema and actual normative paths.",
+      "Recompute three-field envelope body hash, four-field canonical source bytes/source hash, and ArtifactRef canonical wire hash.",
+      "Require artifact-ref, non-I/O tagged-ref, deferred payload_kind, opaque-analysis, outcome/terminal, reader/repository/derive, generic-CAS, thin-slice, topology, import-boundary, legacy, ownership, and downstream rules.",
+      "Resolve every evidence_anchors path from workspace root; validate every inclusive line range and key source fact/fragment in that range.",
+      "Use ast to verify ArtifactRef is absent from crypto_quant_domain and all stated future seam symbols/methods are absent from crypto_quant_backtest root/source while current recorded signatures are present.",
+      "Assert current planning conflict fragments still exist, so acceptance cannot silently claim documents were rewritten.",
+      "Require exactly two approval records; status=approved iff both are approved with nonempty name/approved_at; approval mutates only status and approvals."
+    ],
+    "runner": "cd platform && uvx --python 3.13.5 --from 'pytest==8.4.2' pytest -q foundation/tests/architecture/test_p00_contract.py",
+    "success_rule": "Do not report a fixed final test count until rewritten guard runs successfully."
+  },
+  "receipt_acceptance": {
+    "automated": [
+      "cd platform && python -m json.tool foundation/tests/fixtures/architecture/p00-contract-v1.json >/dev/null",
+      "cd platform && uvx --python 3.13.5 --from 'pytest==8.4.2' pytest -q foundation/tests/architecture/test_p00_contract.py"
+    ],
+    "manual": [
+      "Both repository owners approve status/approvals and explicitly accept planning_reconciliation; all other fields remain frozen.",
+      "Verify only the two P00-CON paths changed; no production source, pilot, metadata, lockfile, or Backtest source changed.",
+      "Verify missing P00-BT capabilities remain future requirements and no nonexistent planning fixture/path is normative."
+    ],
+    "acceptance_gate": "P00-CON-01 remains pending_repository_owner_approval until both approvals and rewritten guard result are recorded."
+  },
+  "approvals": {
+    "backtest_repository_owner": {
+      "status": "approved",
+      "name": "workspace-owner",
+      "approved_at": "2026-08-12T14:15:04Z"
+    },
+    "platform_repository_owner": {
+      "status": "approved",
+      "name": "workspace-owner",
+      "approved_at": "2026-08-12T14:15:04Z"
+    }
+  }
+}
