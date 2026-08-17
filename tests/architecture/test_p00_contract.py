@@ -174,8 +174,8 @@ def test_p00_contract_preserves_archive_and_asserts_local_design() -> None:
     assert "no leaf lock is retained or treated as a Platform lock" in roadmap
     assert "historical `guard_spec`" in (PLATFORM_ROOT / "implementation/p00-contract-v1.md").read_text(encoding="utf-8")
     assert (
-        "Backtest now provides the accepted deep facade, verified evidence repository, "
-        "analysis runtime, terminal refs"
+        "Backtest now provides BT-GAP-09 public cash-development intent/preparation, "
+        "persisted request refs, executable v2 transport"
     ) in overall
 
 

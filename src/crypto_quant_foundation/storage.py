@@ -8,12 +8,14 @@ import tempfile
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager, suppress
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, NoReturn
 
 from crypto_quant_domain import (
     ArtifactEnvelope,
+    ArtifactIntegrityError,
+    ArtifactNotFoundError,
     ArtifactReadResult,
     ArtifactRef,
     canonical_bytes,
@@ -45,6 +47,14 @@ class FoundationFailure(ValueError):
             raise ValueError(f"unknown Foundation failure code: {code}")
         self.code = code
         super().__init__(code)
+
+
+class _FoundationArtifactNotFound(FoundationFailure, ArtifactNotFoundError):
+    pass
+
+
+class _FoundationArtifactIntegrity(FoundationFailure, ArtifactIntegrityError):
+    pass
 
 
 @dataclass(frozen=True, slots=True)
@@ -92,11 +102,15 @@ class LogEntry:
 
 
 def _system_clock() -> str:
-    return datetime.now(timezone.utc).strftime(_TIMESTAMP_FORMAT)
+    return datetime.now(UTC).strftime(_TIMESTAMP_FORMAT)
 
 
 def _fail(code: str, error: Exception | None = None) -> NoReturn:
-    raise FoundationFailure(code) from error
+    failure_type = {
+        "ARTIFACT_NOT_FOUND": _FoundationArtifactNotFound,
+        "ARTIFACT_INTEGRITY": _FoundationArtifactIntegrity,
+    }.get(code, FoundationFailure)
+    raise failure_type(code) from error
 
 
 def _canonical_json_bytes(value: object) -> bytes:
@@ -160,7 +174,7 @@ def _parse_timestamp(value: object) -> tuple[str, datetime]:
     if _TIMESTAMP_RE.fullmatch(value) is None:
         raise ValueError("accepted_at must be canonical UTC microseconds")
     try:
-        parsed = datetime.strptime(value, _TIMESTAMP_FORMAT).replace(tzinfo=timezone.utc)
+        parsed = datetime.strptime(value, _TIMESTAMP_FORMAT).replace(tzinfo=UTC)
     except ValueError as error:
         raise ValueError("accepted_at is not a UTC instant") from error
     if parsed.strftime(_TIMESTAMP_FORMAT) != value:

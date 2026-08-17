@@ -11,6 +11,8 @@ import pytest
 from crypto_quant_backtest import ArtifactEnvelopeReader
 from crypto_quant_domain import (
     ArtifactEnvelope,
+    ArtifactIntegrityError,
+    ArtifactNotFoundError,
     ArtifactReadResult,
     ArtifactRef,
     canonical_bytes,
@@ -18,10 +20,11 @@ from crypto_quant_domain import (
 from crypto_quant_foundation import FoundationFailure, LocalFoundation, storage
 
 
-def _failure(code: str, call: Callable[[], object]) -> None:
+def _failure(code: str, call: Callable[[], object]) -> FoundationFailure:
     with pytest.raises(FoundationFailure) as raised:
         call()
     assert raised.value.code == code
+    return raised.value
 
 
 def _envelope(artifact_type: str = "strategy_candidate") -> ArtifactEnvelope:
@@ -71,7 +74,10 @@ def test_missing_artifact_is_distinct_from_integrity_failure(tmp_path: Path) -> 
     store = LocalFoundation(tmp_path)
     ref = ArtifactRef("strategy_candidate", 1, "sha256:" + "0" * 64)
 
-    _failure("ARTIFACT_NOT_FOUND", lambda: store.read(ref=ref))
+    assert isinstance(
+        _failure("ARTIFACT_NOT_FOUND", lambda: store.read(ref=ref)),
+        ArtifactNotFoundError,
+    )
 
 
 def test_tampered_occupied_ref_fails_closed_for_read_and_put(tmp_path: Path) -> None:
@@ -81,8 +87,14 @@ def test_tampered_occupied_ref_fails_closed_for_read_and_put(tmp_path: Path) -> 
     target = _path(tmp_path, ref)
     target.write_bytes(target.read_bytes() + b"\n")
 
-    _failure("ARTIFACT_INTEGRITY", lambda: store.read(ref=ref))
-    _failure("ARTIFACT_INTEGRITY", lambda: store.put(envelope=envelope))
+    assert isinstance(
+        _failure("ARTIFACT_INTEGRITY", lambda: store.read(ref=ref)),
+        ArtifactIntegrityError,
+    )
+    assert isinstance(
+        _failure("ARTIFACT_INTEGRITY", lambda: store.put(envelope=envelope)),
+        ArtifactIntegrityError,
+    )
 
 
 def test_ref_path_type_and_version_disagreement_fails_closed(tmp_path: Path) -> None:
@@ -156,14 +168,14 @@ def test_owner_log_publication_preserves_envelope_source_and_hash(
 def test_read_matches_the_accepted_backtest_structural_reader_signature() -> None:
     protocol = tuple(signature(ArtifactEnvelopeReader.read).parameters.values())
     implementation = tuple(signature(LocalFoundation.read).parameters.values())
-    assert [(item.name, item.kind) for item in implementation] == [
+    assert tuple((item.name, item.kind) for item in implementation) == (
         ("self", Parameter.POSITIONAL_OR_KEYWORD),
         ("ref", Parameter.KEYWORD_ONLY),
-    ]
-    assert [(item.name, item.kind) for item in protocol] == [
+    )
+    assert tuple((item.name, item.kind) for item in protocol) == (
         ("self", Parameter.POSITIONAL_OR_KEYWORD),
         ("ref", Parameter.KEYWORD_ONLY),
-    ]
+    )
     hints = get_type_hints(LocalFoundation.read)
     protocol_hints = get_type_hints(ArtifactEnvelopeReader.read)
     assert hints == protocol_hints == {
@@ -184,6 +196,8 @@ def test_foundation_import_boundary_stays_generic() -> None:
     assert len(domain_imports) == 1
     assert {alias.name for alias in domain_imports[0].names} == {
         "ArtifactEnvelope",
+        "ArtifactIntegrityError",
+        "ArtifactNotFoundError",
         "ArtifactReadResult",
         "ArtifactRef",
         "canonical_bytes",
