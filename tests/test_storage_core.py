@@ -200,6 +200,7 @@ def test_foundation_import_boundary_stays_generic() -> None:
         "ArtifactNotFoundError",
         "ArtifactReadResult",
         "ArtifactRef",
+        "RawBlobRef",
         "canonical_bytes",
     }
     assert "crypto_quant_domain." not in source

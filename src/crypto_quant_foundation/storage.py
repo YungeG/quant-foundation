@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import re
+import stat
 import tempfile
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager, suppress
@@ -18,6 +19,7 @@ from crypto_quant_domain import (
     ArtifactNotFoundError,
     ArtifactReadResult,
     ArtifactRef,
+    RawBlobRef,
     canonical_bytes,
 )
 
@@ -28,6 +30,12 @@ FAILURE_PRECEDENCE = (
     "ARTIFACT_NOT_FOUND",
     "ARTIFACT_INTEGRITY",
     "ARTIFACT_PUBLICATION_FAILED",
+    "RAW_BLOB_NOT_FOUND",
+    "RAW_BLOB_CAPABILITY_UNAVAILABLE",
+    "RAW_BLOB_INTEGRITY",
+    "RAW_BLOB_FINAL_COLLISION",
+    "RAW_BLOB_UNMANAGED_STATE",
+    "RAW_BLOB_PUBLICATION_FAILED",
     "LOG_CONFLICT",
     "LOG_INTEGRITY",
     "LOG_PUBLICATION_FAILED",
@@ -194,6 +202,48 @@ def _validate_artifact_ref(value: object) -> ArtifactRef:
     if type(value) is not ArtifactRef:
         raise TypeError("ref must be an ArtifactRef")
     return value
+
+
+def _validate_raw_blob_ref(value: object) -> RawBlobRef:
+    if type(value) is not RawBlobRef:
+        raise TypeError("ref must be a RawBlobRef")
+    _validate_hash(value.content_hash, "ref.content_hash")
+    _nonnegative_int(value.byte_count, "ref.byte_count")
+    return value
+
+
+def _raw_blob_source(path: Path, ref: RawBlobRef) -> bytes:
+    if not hasattr(os, "O_NOFOLLOW"):
+        _fail("RAW_BLOB_CAPABILITY_UNAVAILABLE")
+    flags = os.O_RDONLY | os.O_NOFOLLOW
+    try:
+        descriptor = os.open(path, flags)
+    except FileNotFoundError:
+        raise
+    except OSError as error:
+        raise ValueError("raw blob path is not a regular non-symlink file") from error
+
+    try:
+        with os.fdopen(descriptor, "rb") as file:
+            before = os.fstat(file.fileno())
+            if not stat.S_ISREG(before.st_mode):
+                raise ValueError("raw blob path is not a regular file")
+            source = file.read()
+            after = os.fstat(file.fileno())
+    except OSError as error:
+        raise ValueError("cannot read raw blob") from error
+
+    if (
+        before.st_dev != after.st_dev
+        or before.st_ino != after.st_ino
+        or before.st_size != after.st_size
+    ):
+        raise ValueError("raw blob changed while being read")
+    if len(source) != ref.byte_count:
+        raise ValueError("raw blob byte count does not match ref")
+    if _sha256(source) != ref.content_hash:
+        raise ValueError("raw blob content hash does not match ref")
+    return source
 
 
 def _decode_artifact_source(source: bytes) -> ArtifactEnvelope:
@@ -557,6 +607,7 @@ class LocalFoundation:
         self._staging = self._root / ".staging"
         self._registries = self._root / "registries"
         self._artifacts = self._root / "artifacts" / "sha256"
+        self._raw_blobs = self._root / "raw-blobs" / "sha256"
 
     def put(self, *, envelope: ArtifactEnvelope) -> ArtifactRef:
         if type(envelope) is not ArtifactEnvelope:
@@ -616,6 +667,71 @@ class LocalFoundation:
             return _artifact_result(source, ref)
         except Exception as error:  # noqa: BLE001 - fail closed on decoded source
             _fail("ARTIFACT_INTEGRITY", error)
+
+    def put_raw_blob(self, *, blob: bytes) -> RawBlobRef:
+        if type(blob) is not bytes:
+            raise TypeError("blob must be bytes")
+        ref = RawBlobRef.from_bytes(blob)
+
+        self._ensure_raw_blob_layout()
+        with self._locked():
+            target = self._raw_blob_path(ref)
+            self._ensure_raw_blob_bucket(target.parent)
+            if os.path.lexists(target):
+                return self._existing_raw_blob_ref(target, ref)
+
+            staged: Path | None = None
+            try:
+                staged = self._stage(blob, prefix="raw-blob-", suffix=".blob")
+                if _raw_blob_source(staged, ref) != blob:
+                    raise ValueError("staged raw blob does not match source")
+                try:
+                    os.link(staged, target, follow_symlinks=False)
+                except FileExistsError:
+                    return self._existing_raw_blob_ref(target, ref)
+                try:
+                    if _raw_blob_source(target, ref) != blob:
+                        raise ValueError("final raw blob does not match source")
+                except Exception as error:  # noqa: BLE001 - final state is untrusted
+                    _fail("RAW_BLOB_UNMANAGED_STATE", error)
+                with suppress(OSError):
+                    staged.unlink()
+                staged = None
+            except FoundationFailure:
+                raise
+            except Exception as error:  # noqa: BLE001 - atomic publication boundary
+                _fail("RAW_BLOB_PUBLICATION_FAILED", error)
+            finally:
+                if staged is not None:
+                    with suppress(OSError):
+                        staged.unlink()
+        return ref
+
+    def read_raw_blob(self, *, ref: RawBlobRef) -> bytes:
+        ref = _validate_raw_blob_ref(ref)
+        self._ensure_raw_blob_layout()
+        try:
+            return _raw_blob_source(self._raw_blob_path(ref), ref)
+        except FileNotFoundError as error:
+            _fail("RAW_BLOB_NOT_FOUND", error)
+        except FoundationFailure:
+            raise
+        except Exception as error:  # noqa: BLE001 - fail closed at raw CAS boundary
+            _fail("RAW_BLOB_INTEGRITY", error)
+
+    def raw_blob_path(self, *, ref: RawBlobRef) -> Path:
+        ref = _validate_raw_blob_ref(ref)
+        self._ensure_raw_blob_layout()
+        target = self._raw_blob_path(ref)
+        try:
+            _raw_blob_source(target, ref)
+        except FileNotFoundError as error:
+            _fail("RAW_BLOB_NOT_FOUND", error)
+        except FoundationFailure:
+            raise
+        except Exception as error:  # noqa: BLE001 - fail closed at raw CAS boundary
+            _fail("RAW_BLOB_INTEGRITY", error)
+        return target
 
     def append(self, log_name: str, event_id: str, payload: bytes) -> AppendReceipt:
         log_name = _validate_log_name(log_name)
@@ -777,6 +893,22 @@ class LocalFoundation:
         digest = ref.content_hash.removeprefix("sha256:")
         return self._artifacts / digest[:2] / digest
 
+    def _raw_blob_path(self, ref: RawBlobRef) -> Path:
+        digest = ref.content_hash.removeprefix("sha256:")
+        return self._raw_blobs / digest[:2] / digest
+
+    def _ensure_raw_blob_layout(self) -> None:
+        self._ensure_layout()
+        try:
+            for directory in (self._raw_blobs.parent, self._raw_blobs):
+                if directory.is_symlink():
+                    raise OSError(f"{directory} must not be a symlink")
+                directory.mkdir(parents=True, exist_ok=True)
+                if not directory.is_dir():
+                    raise OSError(f"{directory} is not a directory")
+        except OSError as error:
+            _fail("UNSUPPORTED_FILESYSTEM", error)
+
     def _ensure_artifact_bucket(self, bucket: Path) -> None:
         try:
             if bucket.is_symlink():
@@ -786,6 +918,30 @@ class LocalFoundation:
                 raise OSError("artifact bucket is not a directory")
         except OSError as error:
             _fail("UNSUPPORTED_FILESYSTEM", error)
+
+    def _ensure_raw_blob_bucket(self, bucket: Path) -> None:
+        try:
+            if bucket.is_symlink():
+                raise OSError("raw blob bucket must not be a symlink")
+            bucket.mkdir(exist_ok=True)
+            if not bucket.is_dir():
+                raise OSError("raw blob bucket is not a directory")
+        except OSError as error:
+            _fail("UNSUPPORTED_FILESYSTEM", error)
+
+    @staticmethod
+    def _existing_raw_blob_ref(target: Path, ref: RawBlobRef) -> RawBlobRef:
+        try:
+            _raw_blob_source(target, ref)
+        except FileNotFoundError as error:
+            _fail("RAW_BLOB_UNMANAGED_STATE", error)
+        except FoundationFailure:
+            raise
+        except Exception as error:  # noqa: BLE001 - collision state is untrusted
+            if target.is_symlink() or not target.is_file():
+                _fail("RAW_BLOB_UNMANAGED_STATE", error)
+            _fail("RAW_BLOB_FINAL_COLLISION", error)
+        return ref
 
     @contextmanager
     def _locked(self) -> Iterator[None]:
